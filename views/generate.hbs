@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main.css">
+  <title>ASCII Generator</title>
+</head>
+
+<body>
+  {{> header}}
+  <div class="wrapper">
+    <h1>ASCII Art Generator</h1>
+    <h3>Welcome {{user}}!</h3>
+
+    <form action="/generate" method="POST">
+
+      <div class="picker">
+        <input type="text" name="input" placeholder="Text here">
+        <div class="select-container">
+          <select name="font" class="select-box">
+            {{#each fonts}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <button type="submit">Create</button>
+      </div>
+
+    </form>
+  </div>
+  <div class="result">
+    <pre>{{ascii}}</pre>
+  </div>
+
+</body>
+
+</html>

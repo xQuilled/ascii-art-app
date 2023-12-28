@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main.css">
+  <title>Document</title>
+</head>
+
+<body>
+  {{> header}}
+  <div class="wrapper">
+    <div>
+      {{#each posts}}
+      <div>
+        <h3>{{this.title}}</h3>
+        <p>{{this.userid}}</p>
+        <div class="result">
+          <pre>{{this.content}}</pre>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <div class="picker">
+      {{#if previousPage}}
+      <a href="/?page={{previousPage}}">Previous Page</a>
+      {{/if}}
+      {{#if nextPage}}
+      <a href="/?page={{nextPage}}">Next Page</a>
+      {{/if}}
+    </div>
+  </div>
+</body>
+
+</html>
+
+
+</div>
+</body>
+
+</html>

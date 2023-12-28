@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="/css/header.css">
+</head>
+
+<div class="header">
+  <a href="/" class="nav-link">Home</a>
+  <a href="/post" class="nav-link">Post</a>
+  <a href="/generate" class="nav-link">Generate</a>
+  {{#if user}}
+  <a href="/logout" class="nav-link">Logout</a>
+  {{/if}}
+</div>
