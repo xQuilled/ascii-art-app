@@ -4,15 +4,15 @@ const express = require("express");
 const hbs = require("hbs");
 const session = require("express-session");
 
-const routes = require("./routes/index"); // contains routes for actions (login, register, posting, etc.)
-const pages = require("./routes/pages"); // contains routes for pages (home page, login page, etc.)
+const routes = require("./src/routes/index"); // contains routes for actions (login, register, posting, etc.)
+const pages = require("./src/routes/pages"); // contains routes for pages (home page, login page, etc.)
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-hbs.registerPartials(__dirname + "/views/partials");
-app.set("views", path.join(__dirname, "views"));
+hbs.registerPartials(__dirname + "/src/views/partials");
+app.set("views", path.join(__dirname, "/src/views/"));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "hbs"); // use hbs as view engine
 app.use(express.urlencoded({ extended: true }));

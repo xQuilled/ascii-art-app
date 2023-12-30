@@ -1,16 +1,16 @@
 const url = require("url");
 const https = require("https");
-const fonts = require("../fonts.json");
+const fonts = require("../../fonts.json");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("data/database.db");
+const db = new sqlite3.Database("src/models/database.db");
 
-exports.post = function (req, res) {
+exports.post = function(req, res) {
   const { content, title } = req.body;
 
   // add to database
   db.run(
     `INSERT INTO posts values ('${content}', '${title}', '${req.session.user}')`,
-    function (err) {
+    function(err) {
       if (err) {
         console.log("Error inserting post into database.");
         console.log(err);
@@ -23,7 +23,7 @@ exports.post = function (req, res) {
   res.redirect("/");
 };
 
-exports.register = function (req, res) {
+exports.register = function(req, res) {
   const { username, password, password2 } = req.body;
 
   if (password != password2) {
@@ -37,7 +37,7 @@ exports.register = function (req, res) {
 
   db.run(
     `INSERT INTO users values ('${username}', '${password}', 'guest')`,
-    function (err) {
+    function(err) {
       if (err) {
         console.log("Error inserting user into database.");
         console.log(err);
@@ -55,12 +55,12 @@ exports.register = function (req, res) {
   );
 };
 
-exports.login = function (req, res) {
+exports.login = function(req, res) {
   const { username, password } = req.body;
 
   var authorized = false;
 
-  db.all("SELECT userid, password, role FROM users", function (err, rows) {
+  db.all("SELECT userid, password, role FROM users", function(err, rows) {
     for (var i = 0; i < rows.length; i++) {
       if (rows[i].userid == username && rows[i].password == password) {
         authorized = true;
@@ -81,12 +81,12 @@ exports.login = function (req, res) {
   });
 };
 
-exports.logout = function (req, res) {
+exports.logout = function(req, res) {
   req.session.destroy();
   res.render("login", { title: "Login", notice: "You have been logged out." });
 };
 
-exports.generate = function (req, res) {
+exports.generate = function(req, res) {
   const { input, font } = req.body;
 
   let options = {
@@ -97,14 +97,14 @@ exports.generate = function (req, res) {
   console.log("Making API request to: ", options.host + options.path);
 
   https
-    .request(options, function (apiResponse) {
+    .request(options, function(apiResponse) {
       let data = "";
 
-      apiResponse.on("data", function (chunk) {
+      apiResponse.on("data", function(chunk) {
         data += chunk;
       });
 
-      apiResponse.on("end", function () {
+      apiResponse.on("end", function() {
         console.log("API response: ", data);
         res.render("generate", {
           title: "Home",

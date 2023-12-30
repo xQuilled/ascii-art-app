@@ -1,10 +1,10 @@
 const url = require("url");
 const https = require("https");
-const fonts = require("../fonts.json");
+const fonts = require("../../fonts.json");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("data/database.db");
+const db = new sqlite3.Database("src/models/database.db");
 
-exports.index = function (req, res) {
+exports.index = function(req, res) {
   if (req.session.user) {
     let page = req.query.page;
     let nextPage;
@@ -16,7 +16,7 @@ exports.index = function (req, res) {
     }
 
     // get total number of posts
-    db.all("SELECT COUNT(*) AS count FROM posts", function (err, count) {
+    db.all("SELECT COUNT(*) AS count FROM posts", function(err, count) {
       // only display next and prev page buttons if there are valid number of posts
       if (page * 10 >= count[0].count) {
         nextPage = null;
@@ -34,7 +34,7 @@ exports.index = function (req, res) {
 
     db.all(
       `SELECT * FROM posts LIMIT 10 OFFSET ${offset}`,
-      function (err, rows) {
+      function(err, rows) {
         res.render("index", {
           title: "Home",
           user: req.session.user,
@@ -50,7 +50,7 @@ exports.index = function (req, res) {
   }
 };
 
-exports.login = function (req, res) {
+exports.login = function(req, res) {
   if (req.session.user) {
     res.redirect("/");
   } else {
@@ -58,7 +58,7 @@ exports.login = function (req, res) {
   }
 };
 
-exports.register = function (req, res) {
+exports.register = function(req, res) {
   if (req.session.user) {
     // logs out user if logged in
     routes.logout(req, res);
@@ -67,7 +67,7 @@ exports.register = function (req, res) {
   res.render("register", { title: "Register" });
 };
 
-exports.generate = function (req, res) {
+exports.generate = function(req, res) {
   res.render("generate", {
     title: "Generate",
     user: req.session.user,
@@ -75,7 +75,7 @@ exports.generate = function (req, res) {
   });
 };
 
-exports.post = function (req, res) {
+exports.post = function(req, res) {
   if (req.session.user) {
     res.render("post", { title: "Post", user: req.session.user });
   } else {
@@ -83,7 +83,7 @@ exports.post = function (req, res) {
   }
 };
 
-exports.profile = function (req, res) {
+exports.profile = function(req, res) {
   if (req.session.user) {
     res.render("profile", { title: "Profile", user: req.session.user });
   } else {
@@ -91,9 +91,9 @@ exports.profile = function (req, res) {
   }
 };
 
-exports.users = function (req, res) {
+exports.users = function(req, res) {
   if (req.session.role == "admin") {
-    db.all("SELECT userid, password, role FROM users", function (err, rows) {
+    db.all("SELECT userid, password, role FROM users", function(err, rows) {
       res.render("users", { title: "Users", users: rows });
     });
   } else {
